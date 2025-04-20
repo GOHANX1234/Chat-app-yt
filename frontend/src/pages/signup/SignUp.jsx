@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import GenderCheckbox from "./GenderCheckbox";
 import { useState } from "react";
 import useSignup from "../../hooks/useSignup";
 
@@ -23,12 +22,16 @@ const SignUp = () => {
 		await signup(inputs);
 	};
 
+	const genderOptions = [
+		{ label: "Male", value: "male", color: "bg-blue-500", icon: "♂" },
+		{ label: "Female", value: "female", color: "bg-pink-500", icon: "♀" },
+		{ label: "Other", value: "other", color: "bg-purple-500", icon: "★" },
+	];
+
 	return (
 		<div
 			className='min-h-screen flex items-center justify-center bg-cover bg-center px-4'
-			style={{
-				backgroundImage: "url('/bg.jpg')", // replace with your image path
-			}}
+			style={{ backgroundImage: "url('/bg.jpg')" }}
 		>
 			<div className='w-full max-w-sm bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-xl shadow-2xl p-6'>
 				<h1 className='text-3xl font-bold text-center text-white mb-6'>
@@ -80,10 +83,31 @@ const SignUp = () => {
 						/>
 					</div>
 
-					<GenderCheckbox
-						onCheckboxChange={handleCheckboxChange}
-						selectedGender={inputs.gender}
-					/>
+					<div className='mt-4'>
+						<label className='block text-sm text-white mb-2'>Select Gender</label>
+						<div className='flex flex-col gap-3 sm:flex-row'>
+							{genderOptions.map(({ label, value, color, icon }) => (
+								<label
+									key={value}
+									className={`flex items-center justify-center gap-2 text-white py-2 rounded-lg cursor-pointer border transition-all 
+										${inputs.gender === value
+											? `${color} bg-opacity-40 border-white shadow-md`
+											: "bg-white bg-opacity-10 border-white border-opacity-20 hover:bg-opacity-20"}`}
+								>
+									<input
+										type='radio'
+										name='gender'
+										value={value}
+										checked={inputs.gender === value}
+										onChange={() => handleCheckboxChange(value)}
+										className='hidden'
+									/>
+									<span className='text-xl'>{icon}</span>
+									<span>{label}</span>
+								</label>
+							))}
+						</div>
+					</div>
 
 					<Link
 						to={"/login"}
