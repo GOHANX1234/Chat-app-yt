@@ -1,43 +1,106 @@
-import { useState } from "react"; import { Link } from "react-router-dom"; import { MessageCircle } from "lucide-react"; import useLogin from "../../hooks/useLogin";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
-const Login = () => { const [username, setUsername] = useState(""); const [password, setPassword] = useState(""); const { loading, login } = useLogin();
+const Login = () => {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 
-const handleSubmit = async (e) => { e.preventDefault(); await login(username, password); };
+	const { loading, login } = useLogin();
 
-return ( <div className="min-h-screen flex items-center justify-center bg-black p-4"> <div className="w-full max-w-xs bg-gray-800 rounded-2xl shadow-lg p-6 space-y-6"> <div className="flex items-center justify-center space-x-3"> <MessageCircle className="w-8 h-8 text-blue-500" /> <h1 className="text-2xl font-bold text-white">RizzNet Chat</h1> </div> <form onSubmit={handleSubmit} className="space-y-4"> <div> <label htmlFor="username" className="block text-sm font-medium text-gray-300"> Username </label> <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username" className="mt-1 w-full bg-gray-700 text-white px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" /> </div>
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		await login(username, password);
+	};
 
-<div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-          className="mt-1 w-full bg-gray-700 text-white px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+	return (
+		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
+			<div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
+				<h1 className='text-3xl font-semibold text-center text-gray-300'>
+					Login
+					<span className='text-blue-500'> RizzNet</span>
+				</h1>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition disabled:opacity-50"
-      >
-        {loading ? <span className="loading loading-spinner text-white"></span> : "Login"}
-      </button>
-    </form>
+				<form onSubmit={handleSubmit}>
+					<div>
+						<label className='label p-2'>
+							<span className='text-base label-text'>Username</span>
+						</label>
+						<input
+							type='text'
+							placeholder='Enter username'
+							className='w-full input input-bordered h-10'
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+					</div>
 
-    <div className="text-center">
-      <Link to="/signup" className="text-sm text-blue-400 hover:underline">
-        Don't have an account?
-      </Link>
-    </div>
-  </div>
-</div>
+					<div>
+						<label className='label'>
+							<span className='text-base label-text'>Password</span>
+						</label>
+						<input
+							type='password'
+							placeholder='Enter Password'
+							className='w-full input input-bordered h-10'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<Link to='/signup' className='text-sm  hover:underline hover:text-blue-600 mt-2 inline-block'>
+						{"Don't"} have an account?
+					</Link>
 
-); };
-
+					<div>
+						<button className='btn btn-block btn-sm mt-2' disabled={loading}>
+							{loading ? <span className='loading loading-spinner '></span> : "Login"}
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	);
+};
 export default Login;
 
+// STARTER CODE FOR THIS FILE
+// const Login = () => {
+// 	return (
+// 		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
+// 			<div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
+// 				<h1 className='text-3xl font-semibold text-center text-gray-300'>
+// 					Login
+// 					<span className='text-blue-500'> RizzNet</span>
+// 				</h1>
+
+// 				<form>
+// 					<div>
+// 						<label className='label p-2'>
+// 							<span className='text-base label-text'>Username</span>
+// 						</label>
+// 						<input type='text' placeholder='Enter username' className='w-full input input-bordered h-10' />
+// 					</div>
+
+// 					<div>
+// 						<label className='label'>
+// 							<span className='text-base label-text'>Password</span>
+// 						</label>
+// 						<input
+// 							type='password'
+// 							placeholder='Enter Password'
+// 							className='w-full input input-bordered h-10'
+// 						/>
+// 					</div>
+// 					<a href='#' className='text-sm  hover:underline hover:text-blue-600 mt-2 inline-block'>
+// 						{"Don't"} have an account?
+// 					</a>
+
+// 					<div>
+// 						<button className='btn btn-block btn-sm mt-2'>Login</button>
+// 					</div>
+// 				</form>
+// 			</div>
+// 		</div>
+// 	);
+// };
+// export default Login;
