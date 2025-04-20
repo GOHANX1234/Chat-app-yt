@@ -23,9 +23,9 @@ const SignUp = () => {
 	};
 
 	const genderOptions = [
-		{ label: "Male", value: "male", color: "bg-blue-500", icon: "♂" },
-		{ label: "Female", value: "female", color: "bg-pink-500", icon: "♀" },
-		{ label: "Other", value: "other", color: "bg-purple-500", icon: "★" },
+		{ label: "Male", value: "male", color: "text-blue-400", icon: "♂" },
+		{ label: "Female", value: "female", color: "text-pink-400", icon: "♀" },
+		{ label: "Other", value: "other", color: "text-purple-400", icon: "★" },
 	];
 
 	return (
@@ -39,72 +39,50 @@ const SignUp = () => {
 				</h1>
 
 				<form onSubmit={handleSubmit} className='space-y-4'>
-					<div>
-						<label className='block text-sm text-white mb-1'>Full Name</label>
-						<input
-							type='text'
-							placeholder='John Doe'
-							className='w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400'
-							value={inputs.fullName}
-							onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
-						/>
-					</div>
+					{["fullName", "username", "password", "confirmPassword"].map((field, idx) => (
+						<div key={idx}>
+							<label className='block text-sm text-white mb-1'>
+								{field === "fullName"
+									? "Full Name"
+									: field === "confirmPassword"
+									? "Confirm Password"
+									: field.charAt(0).toUpperCase() + field.slice(1)}
+							</label>
+							<input
+								type={field.includes("password") ? "password" : "text"}
+								placeholder={
+									field === "fullName"
+										? "John Doe"
+										: field === "username"
+										? "johndoe"
+										: field === "password"
+										? "Enter Password"
+										: "Confirm Password"
+								}
+								className='w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400'
+								value={inputs[field]}
+								onChange={(e) => setInputs({ ...inputs, [field]: e.target.value })}
+							/>
+						</div>
+					))}
 
-					<div>
-						<label className='block text-sm text-white mb-1'>Username</label>
-						<input
-							type='text'
-							placeholder='johndoe'
-							className='w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400'
-							value={inputs.username}
-							onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
-						/>
-					</div>
-
-					<div>
-						<label className='block text-sm text-white mb-1'>Password</label>
-						<input
-							type='password'
-							placeholder='Enter Password'
-							className='w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400'
-							value={inputs.password}
-							onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
-						/>
-					</div>
-
-					<div>
-						<label className='block text-sm text-white mb-1'>Confirm Password</label>
-						<input
-							type='password'
-							placeholder='Confirm Password'
-							className='w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400'
-							value={inputs.confirmPassword}
-							onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
-						/>
-					</div>
-
-					<div className='mt-4'>
-						<label className='block text-sm text-white mb-2'>Select Gender</label>
-						<div className='flex flex-col gap-3 sm:flex-row'>
+					<div className='mt-2'>
+						<label className='block text-sm text-white mb-2'>Gender</label>
+						<div className='flex justify-between gap-2'>
 							{genderOptions.map(({ label, value, color, icon }) => (
-								<label
+								<button
+									type='button'
 									key={value}
-									className={`flex items-center justify-center gap-2 text-white py-2 rounded-lg cursor-pointer border transition-all 
-										${inputs.gender === value
-											? `${color} bg-opacity-40 border-white shadow-md`
-											: "bg-white bg-opacity-10 border-white border-opacity-20 hover:bg-opacity-20"}`}
+									onClick={() => handleCheckboxChange(value)}
+									className={`w-1/3 flex flex-col items-center py-2 rounded-lg border text-white transition-all ${
+										inputs.gender === value
+											? `bg-white bg-opacity-20 border-white shadow-md ${color}`
+											: "bg-white bg-opacity-10 border-white border-opacity-20 hover:bg-opacity-20"
+									}`}
 								>
-									<input
-										type='radio'
-										name='gender'
-										value={value}
-										checked={inputs.gender === value}
-										onChange={() => handleCheckboxChange(value)}
-										className='hidden'
-									/>
-									<span className='text-xl'>{icon}</span>
-									<span>{label}</span>
-								</label>
+									<span className={`text-xl ${color}`}>{icon}</span>
+									<span className='text-xs'>{label}</span>
+								</button>
 							))}
 						</div>
 					</div>
