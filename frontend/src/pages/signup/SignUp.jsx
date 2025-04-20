@@ -25,7 +25,6 @@ const SignUp = () => {
 	const genderOptions = [
 		{ label: "Male", value: "male", color: "text-blue-400", icon: "♂" },
 		{ label: "Female", value: "female", color: "text-pink-400", icon: "♀" },
-		{ label: "Other", value: "other", color: "text-purple-400", icon: "★" },
 	];
 
 	return (
